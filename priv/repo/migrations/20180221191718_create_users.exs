@@ -3,7 +3,7 @@ defmodule GQLardian.Repo.Migrations.CreateUsers do
 
   def change do
     create table(:users) do
-      add :username, :string
+      add :username, :citext
       add :password_hash, :string
 
       timestamps()
