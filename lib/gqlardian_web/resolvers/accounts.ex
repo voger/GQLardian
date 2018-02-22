@@ -1,10 +1,15 @@
 defmodule GQLardianWeb.Resolvers.Accounts do
   alias GQLardian.Accounts
-  require Cl
 
   def get_user(field, arguments, _res) do
-    Cl.inspect(field, label: "-b field")
-    Cl.inspect(arguments, label: "-b arguments")
+  end
 
+  def create_user(_, %{input: arguments}, _res) do
+    with {:ok, %Accounts.User{} = user} <- Accounts.create_user(arguments) do
+      {:ok, user}
+    else
+      error ->
+        {:error, "Could not create user"}
+    end
   end
 end

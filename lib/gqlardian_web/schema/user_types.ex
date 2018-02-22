@@ -12,8 +12,7 @@ defmodule GQLardianWeb.Schema.UserTypes do
   object :user_mutations do
     field :create_user, :user do
       arg :input, non_null(:create_user_input)
-
-
+      resolve &Resolvers.Accounts.create_user/3
     end
   end
 

@@ -37,6 +37,7 @@ defmodule GQLardian.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  require Cl
   @doc """
   Creates a user.
 
@@ -52,6 +53,7 @@ defmodule GQLardian.Accounts do
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
+    |> Cl.inspect(label: "Changeset after attrs")
     |> Repo.insert()
   end
 
