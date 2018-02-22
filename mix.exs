@@ -43,6 +43,8 @@ defmodule GQLardian.Mixfile do
       {:absinthe, "~> 1.4.2"},
       {:absinthe_plug, "~> 1.4.0"},
       {:absinthe_phoenix, "~> 1.4.0"},
+      {:comeonin_ecto_password, "~> 2.0.0"},
+      {:clouseau, "~>0.3.1"}
     ]
   end
 

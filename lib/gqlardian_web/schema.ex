@@ -4,8 +4,10 @@ defmodule GQLardianWeb.Schema do
   import_types __MODULE__.UserTypes
 
   query do
-    import_fields :user_queries 
+    import_fields :user_queries
   end
 
-
+  mutation do
+    import_fields :user_mutations
+  end
 end

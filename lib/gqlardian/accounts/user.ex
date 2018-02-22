@@ -5,7 +5,7 @@ defmodule GQLardian.Accounts.User do
 
 
   schema "users" do
-    field :password_hash, :string
+    field :password_hash, Comeonin.Ecto.Password
     field :username, :string
 
     timestamps()
