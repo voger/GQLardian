@@ -3,7 +3,8 @@ defmodule GQLardianWeb.Resolvers.Accounts do
 
   require Cl
 
-  def get_user(field, arguments, _res) do
+  def get_user(field, %{id: id}, _res) do
+    {:ok, Accounts.get_user(id)}
   end
 
   def create_user(_, %{input: arguments}, _res) do
