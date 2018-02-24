@@ -1,6 +1,10 @@
 defmodule GQLardianWeb.Schema.UserTypes do
   use Absinthe.Schema.Notation
+
+  import Kronky.Payload
   alias GQLardianWeb.Resolvers
+
+  import_types GQLardianWeb.Schema.ValidationMessageTypes
 
   object :user_queries do
     field :user, :user do
@@ -9,10 +13,14 @@ defmodule GQLardianWeb.Schema.UserTypes do
     end
   end
 
+  # Payload objects
+  payload_object(:create_user_return, :user)
+
   object :user_mutations do
-    field :create_user, :user do
+    field :create_user, :create_user_return do
       arg :input, non_null(:create_user_input)
       resolve &Resolvers.Accounts.create_user/3
+      middleware &build_payload/2
     end
   end
 

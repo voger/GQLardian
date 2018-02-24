@@ -1,6 +1,8 @@
 defmodule GQLardianWeb.Resolvers.Accounts do
   alias GQLardian.Accounts
 
+  require Cl
+
   def get_user(field, arguments, _res) do
   end
 
@@ -8,8 +10,9 @@ defmodule GQLardianWeb.Resolvers.Accounts do
     with {:ok, %Accounts.User{} = user} <- Accounts.create_user(arguments) do
       {:ok, user}
     else
-      error ->
-        {:error, "Could not create user"}
+      {:error, %Ecto.Changeset{} = changeset} ->
+        Cl.inspect(changeset, label: "The changeset")
+        {:ok, changeset}
     end
   end
 end
