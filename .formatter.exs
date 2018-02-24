@@ -32,6 +32,9 @@
     # Ecto Query
     from: :*,
     
+    # Ecto Migration
+    create: :*,
+    
     # Absinthe
     arg: :*,
     field: :*,
