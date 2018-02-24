@@ -16,9 +16,9 @@ defmodule  GQLardianWeb.Schema.ValidationMessageTypes do
 
   ```elixir
   object :validation_message, description: "..." do
-    field :field, :string, description: "..."
-    field :message, :string, description: "..."
-    field :code, non_null(:string), description: "..."
+  field :field, :string, description: "..."
+  field :message, :string, description: "..."
+  field :code, non_null(:string), description: "..."
   end
   ```
 
@@ -29,20 +29,20 @@ defmodule  GQLardianWeb.Schema.ValidationMessageTypes do
   #simplify access to reusable descriptions
   @descs %{
     validation_message: """
-      Validation messages are returned when mutation input does not meet the requirements.
-      While client-side validation is highly recommended to provide the best User Experience,
-      All inputs will always be validated server-side.
+    Validation messages are returned when mutation input does not meet the requirements.
+    While client-side validation is highly recommended to provide the best User Experience,
+    All inputs will always be validated server-side.
 
-      Some examples of validations are:
+    Some examples of validations are:
 
-      * Username must be at least 10 characters
-      * Email field does not contain an email address
-      * Birth Date is required
+    * Username must be at least 10 characters
+    * Email field does not contain an email address
+    * Birth Date is required
 
-      While GraphQL has support for required values, mutation data fields are always
-      set to optional in our API. This allows 'required field' messages
-      to be returned in the same manner as other validations. The only exceptions
-      are id fields, which may be required to perform updates or deletes.
+    While GraphQL has support for required values, mutation data fields are always
+    set to optional in our API. This allows 'required field' messages
+    to be returned in the same manner as other validations. The only exceptions
+    are id fields, which may be required to perform updates or deletes.
     """  ,
     field: "The input field that the error applies to. The field can be used to
     identify which field the error message should be displayed next to in the
@@ -64,7 +64,7 @@ defmodule  GQLardianWeb.Schema.ValidationMessageTypes do
 
     successful: "Indicates if the mutation completed successfully or not. ",
     code: "A unique error code for the type of validation used.",
-    }
+  }
 
   object :validation_message, description: @descs.validation_message do
     field :field, :string, description: @descs.field

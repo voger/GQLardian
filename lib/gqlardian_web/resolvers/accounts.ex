@@ -11,7 +11,6 @@ defmodule GQLardianWeb.Resolvers.Accounts do
       {:ok, user}
     else
       {:error, %Ecto.Changeset{} = changeset} ->
-        Cl.inspect(changeset, label: "The changeset")
         {:ok, changeset}
     end
   end

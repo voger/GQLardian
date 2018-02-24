@@ -18,6 +18,7 @@ defmodule GQLardian.Accounts.User do
 
     user
     |> cast(attrs, [:username, :password_hash])
+    |> validate_length(:username, min: 4)
     |> validate_required([:username, :password_hash])
     |> unique_constraint(:username, message: "already taken")
   end

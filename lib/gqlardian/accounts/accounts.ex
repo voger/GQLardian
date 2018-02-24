@@ -53,7 +53,6 @@ defmodule GQLardian.Accounts do
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
-    |> Cl.inspect(label: "Changeset after attrs")
     |> Repo.insert()
   end
 
