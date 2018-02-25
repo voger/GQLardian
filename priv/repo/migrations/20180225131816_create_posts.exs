@@ -9,6 +9,8 @@ defmodule GQLardian.Repo.Migrations.CreatePosts do
 
       add :status,
           references(:post_statuses, on_update: :update_all, column: :status, type: :citext), null: false
+
+      timestamps()
     end
   end
 end
