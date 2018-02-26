@@ -3,11 +3,11 @@ defmodule GQLardian.Accounts.User do
   import Ecto.Changeset
   alias GQLardian.Accounts.User
 
-  require Cl
-
   schema "users" do
     field :password_hash, Comeonin.Ecto.Password
     field :username, :string
+
+    has_many(:posts, GQLardian.Posts.Post, foreign_key: :author_id)
 
     timestamps()
   end
@@ -18,8 +18,8 @@ defmodule GQLardian.Accounts.User do
 
     user
     |> cast(attrs, [:username, :password_hash])
-    |> validate_length(:username, min: 4)
     |> validate_required([:username, :password_hash])
+    |> validate_length(:username, min: 4)
     |> unique_constraint(:username, message: "already taken")
   end
 
@@ -28,5 +28,4 @@ defmodule GQLardian.Accounts.User do
     |> Map.put_new(:password_hash, password)
     |> Map.delete(:password)
   end
-
 end
