@@ -3,6 +3,7 @@
 /db
 /deps
 /*.ez
+.iex.exs
 
 TAGS
 
