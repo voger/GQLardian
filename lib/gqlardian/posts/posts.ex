@@ -11,4 +11,12 @@ defmodule GQLardian.Posts do
     |> Post.create_changeset(attrs)
     |> Repo.insert()
   end
+
+  def get_post(id) do
+    Repo.get(Post, id)
+  end
+
+  def list_posts() do
+    Repo.all(Post)
+  end
 end
