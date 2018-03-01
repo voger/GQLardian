@@ -10,4 +10,12 @@ defmodule GQLardianWeb.Resolvers.Posts do
         {:ok, changeset}
     end
   end
+
+  def get_post(_, %{id: id}, _res) do
+    {:ok, Posts.get_post(id)}
+  end
+
+  def posts(_, _, _) do
+    {:ok, Posts.list_posts()}
+  end
 end
