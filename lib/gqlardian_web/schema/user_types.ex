@@ -4,8 +4,6 @@ defmodule GQLardianWeb.Schema.UserTypes do
   import Kronky.Payload
   alias GQLardianWeb.Resolvers
 
-  import_types GQLardianWeb.Schema.ValidationMessageTypes
-
   object :user_queries do
     field :user, :user do
       arg :id, non_null(:id)
