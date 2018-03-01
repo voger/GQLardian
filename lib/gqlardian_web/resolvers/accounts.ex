@@ -1,8 +1,6 @@
 defmodule GQLardianWeb.Resolvers.Accounts do
   alias GQLardian.Accounts
 
-  require Cl
-
   def get_user(field, %{id: id}, _res) do
     {:ok, Accounts.get_user(id)}
   end
