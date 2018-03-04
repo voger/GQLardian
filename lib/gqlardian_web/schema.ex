@@ -16,4 +16,21 @@ defmodule GQLardianWeb.Schema do
     import_fields :user_mutations
     import_fields :post_mutations
   end
+
+  def dataloader() do
+    Dataloader.new()
+    |> Dataloader.add_source(:generic, data())
+  end
+
+  def context(ctx) do
+    Map.put(ctx, :loader, dataloader())
+  end
+
+  def plugins do
+    [Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults()]
+  end
+
+  def data() do
+    Dataloader.Ecto.new(GQLardian.Repo)
+  end
 end
