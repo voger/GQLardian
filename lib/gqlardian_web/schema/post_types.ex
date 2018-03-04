@@ -32,8 +32,18 @@ defmodule GQLardianWeb.Schema.PostTypes do
     field :content, non_null(:string)
     field :inserted_at, non_null(:naive_datetime)
     field :updated_at, non_null(:naive_datetime)
+
     field :status, non_null(:string) do
-      resolve
+      # FIXME: Investigate usage of dataloader
+      resolve fn parent, _args, _res ->
+        status =
+          parent
+          |> GQLardian.Repo.preload(:status)
+          |> Map.get(:status)
+          |> Map.get(:status)
+
+        {:ok, status}
+      end
     end
   end
 
