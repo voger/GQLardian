@@ -14,7 +14,7 @@ defmodule GQLardianWeb.Resolvers.Posts do
   end
 
   def get_post(_, %{id: id}, _res) do
-    {:ok, Posts.get_poszt(id)}
+    {:ok, Posts.get_post(id)}
   end
 
   def posts(_, _, _) do
