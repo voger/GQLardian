@@ -28,27 +28,30 @@ defmodule GQLardianWeb.Schema.PostTypes do
   end
 
   require Cl
+
   object :post do
     field :id, non_null(:id)
     field :title, non_null(:string)
     field :content, non_null(:string)
     field :inserted_at, non_null(:naive_datetime)
     field :updated_at, non_null(:naive_datetime)
+
     field :author, non_null(:user) do
       resolve dataloader(:generic, :author)
     end
 
-
     field :status, non_null(:string) do
-      # FIXME: Investigate usage of dataloader
-      resolve fn parent, _args, _res ->
-        status =
-          parent
-          |> GQLardian.Repo.preload(:status)
-          |> Map.get(:status)
-          |> Map.get(:status)
+      resolve fn parent, _args, %{context: %{loader: loader}} ->
+        loader
+        |> Dataloader.load(:generic, :status, parent)
+        |> on_load(fn loader ->
+          status =
+            loader
+            |> Dataloader.get(:generic, :status, parent)
+            |> Map.fetch!(:status)
 
           {:ok, status}
+        end)
       end
     end
   end
