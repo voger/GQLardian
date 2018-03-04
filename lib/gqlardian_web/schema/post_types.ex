@@ -32,6 +32,9 @@ defmodule GQLardianWeb.Schema.PostTypes do
     field :content, non_null(:string)
     field :inserted_at, non_null(:naive_datetime)
     field :updated_at, non_null(:naive_datetime)
+    field :status, non_null(:string) do
+      resolve
+    end
   end
 
   input_object :create_post_input do
