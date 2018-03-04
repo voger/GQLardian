@@ -1,7 +1,7 @@
 defmodule GQLardianWeb.Schema.PostTypes do
   use Absinthe.Schema.Notation
   import Kronky.Payload
-  import Absinthe.Resolution.Helpers
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
   alias GQLardianWeb.Resolvers
 
@@ -27,8 +27,6 @@ defmodule GQLardianWeb.Schema.PostTypes do
     end
   end
 
-  require Cl
-
   object :post do
     field :id, non_null(:id)
     field :title, non_null(:string)
@@ -37,22 +35,11 @@ defmodule GQLardianWeb.Schema.PostTypes do
     field :updated_at, non_null(:naive_datetime)
 
     field :author, non_null(:user) do
-      resolve dataloader(:generic, :author)
+      resolve dataloader(:generic)
     end
 
     field :status, non_null(:string) do
-      resolve fn parent, _args, %{context: %{loader: loader}} ->
-        loader
-        |> Dataloader.load(:generic, :status, parent)
-        |> on_load(fn loader ->
-          status =
-            loader
-            |> Dataloader.get(:generic, :status, parent)
-            |> Map.fetch!(:status)
-
-          {:ok, status}
-        end)
-      end
+      resolve &Resolvers.Posts.status_for_posts/3
     end
   end
 
