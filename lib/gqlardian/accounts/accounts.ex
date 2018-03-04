@@ -29,7 +29,6 @@ defmodule GQLardian.Accounts do
   """
   def get_user(id), do: Repo.get(User, id)
 
-  require Cl
   @doc """
   Creates a user.
 
