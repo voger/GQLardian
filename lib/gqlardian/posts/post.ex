@@ -12,8 +12,11 @@ defmodule GQLardian.Posts.Post do
     field :title, :string
     field :content, :string
 
-    belongs_to :status, PostStatus, references: :status, type: :string, on_replace: :nilify
-    belongs_to :author, GQLardian.Accounts.User
+    belongs_to(:status, PostStatus,
+                references: :status,
+                type: :string,
+                on_replace: :nilify)
+    belongs_to(:author, GQLardian.Accounts.User)
     timestamps()
   end
 
@@ -33,9 +36,9 @@ defmodule GQLardian.Posts.Post do
     |> put_change(:author_id, 1)
   end
 
-  def update_changeset(%Post{} = post, %{"status" => status} = attrs) when is_binary(status) do
+  def update_changeset(%Post{} = post, %{status: status} = attrs) do
     post
-    |> update_changeset(Map.delete(attrs, "status"))
+    |> update_changeset(Map.delete(attrs, :status))
     |> change_status(status)
     |> assoc_constraint(:status)
   end
@@ -45,7 +48,7 @@ defmodule GQLardian.Posts.Post do
     |> changeset(attrs)
   end
 
-  defp change_status(changeset, status) when is_binary(status) do
-    put_change(changeset, :status_id, status)
+  defp change_status(changeset, status) do
+    put_change(changeset, :status_id, to_string(status))
   end
 end
