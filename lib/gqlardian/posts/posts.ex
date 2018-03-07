@@ -13,11 +13,14 @@ defmodule GQLardian.Posts do
   end
 
   def update_post(post_id, attrs \\ %{}) do
-    # |> Cl.inspect(label: "-b updated changeset")
-    post_id
-    |> get_post()
-    |> Post.update_changeset(attrs)
-    |> Repo.update!()
+    with post = %Post{} <- get_post(post_id) do
+      post
+      |> Post.update_changeset(attrs)
+      |> Repo.update!()
+    else
+      nil ->
+        %Kronky.ValidationMessage{field: :id, message: "not found", code: :not_found}
+    end
   end
 
   def get_post(id) do
