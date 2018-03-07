@@ -5,6 +5,9 @@ defmodule GQLardian.Posts.Post do
   alias GQLardian.Posts.{Post, PostStatus}
   alias GQLardian.Repo
 
+  # FIXME: This should be taken from config or db or something else
+  @default_post_status "draft"
+
   schema "posts" do
     field :title, :string
     field :content, :string
@@ -19,15 +22,22 @@ defmodule GQLardian.Posts.Post do
     # Temporary
     post
     |> cast(attrs, [:title, :content])
-    |> assoc_status(attrs)
   end
 
   def create_changeset(%Post{} = post, attrs) do
     post
     |> changeset(attrs)
     |> validate_required([:title, :content])
+    |> change_status(@default_post_status)
     # FIXME: must put author alsewhere
     |> put_change(:author_id, 1)
+  end
+
+  def update_changeset(%Post{} = post, %{"status" => status} = attrs) when is_binary(status) do
+    post
+    |> update_changeset(Map.delete(attrs, "status"))
+    |> change_status(status)
+    |> assoc_constraint(:status)
   end
 
   def update_changeset(%Post{} = post, attrs) do
@@ -35,19 +45,7 @@ defmodule GQLardian.Posts.Post do
     |> changeset(attrs)
   end
 
-  defp assoc_status(changeset, %{"status" => status}) do
-    if status = get_status(status) do
-      put_change(changeset, :status, status)
-    else
-      add_error(changeset, :status, "invalid")
-    end
-  end
-
-  defp assoc_status(changeset, _attrs) do
-    changeset
-  end
-
-  defp get_status(status) when is_binary(status) do
-    Repo.get(PostStatus, status)
+  defp change_status(changeset, status) when is_binary(status) do
+    put_change(changeset, :status_id, status)
   end
 end
