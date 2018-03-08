@@ -13,9 +13,9 @@ defmodule GQLardian.Posts.Post do
     field :content, :string
 
     belongs_to(:status, PostStatus,
-                references: :status,
-                type: :string,
-                on_replace: :nilify)
+               references: :status,
+               type: :string,
+               on_replace: :nilify)
     belongs_to(:author, GQLardian.Accounts.User)
     timestamps()
   end
@@ -36,19 +36,18 @@ defmodule GQLardian.Posts.Post do
     |> put_change(:author_id, 1)
   end
 
-  def update_changeset(%Post{} = post, %{status: status} = attrs) do
+  def update_changeset(%Post{} = post,  attrs) do
     post
-    |> update_changeset(Map.delete(attrs, :status))
-    |> change_status(status)
+    |> changeset(attrs)
+    |> change_status(attrs)
     |> assoc_constraint(:status)
   end
 
-  def update_changeset(%Post{} = post, attrs) do
-    post
-    |> changeset(attrs)
+  defp change_status(changeset, %{status: status}) do
+    put_change(changeset, :status_id, to_string(status))
   end
 
-  defp change_status(changeset, status) do
-    put_change(changeset, :status_id, to_string(status))
+  defp change_status(changeset, _attrs) do
+    changeset
   end
 end
