@@ -18,11 +18,19 @@ defmodule GQLardianWeb.Schema.PostTypes do
 
   # Payload objects
   payload_object(:create_post_return, :post)
+  payload_object(:update_post_return, :post)
 
   object :post_mutations do
+
     field :create_post, :create_post_return do
       arg :input, non_null(:create_post_input)
       resolve &Resolvers.Posts.create_post/3
+      middleware &build_payload/2
+    end
+
+    field :update_post, :update_post_return do
+      arg :input, non_null(:update_post_input)
+      resolve &Resolvers.Posts.update_post/3
       middleware &build_payload/2
     end
   end
@@ -46,5 +54,18 @@ defmodule GQLardianWeb.Schema.PostTypes do
   input_object :create_post_input do
     field :title, non_null(:string)
     field :content, non_null(:string)
+  end
+
+  input_object :update_post_input do
+    field :id, non_null(:id)
+    field :title, :string
+    field :content, :string
+    field :status, :post_status
+  end
+
+  enum :post_status do
+    value :draft
+    value :published
+    value :unpublished
   end
 end

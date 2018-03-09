@@ -6,8 +6,13 @@ defmodule GQLardian.Repo.Migrations.CreatePosts do
       add :title, :string, null: false
       add :content, :text, null: false
 
-      add :author_id, references(:users, on_delete: :delete_all, on_update: :update_all),
-        null: false
+      add :author_id,
+          references(
+            :users,
+            on_delete: :delete_all,
+            on_update: :update_all
+          ),
+          null: false
 
       add :status_id,
           references(

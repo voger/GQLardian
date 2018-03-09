@@ -4,12 +4,18 @@ defmodule GQLardian.Posts do
   """
 
   alias GQLardian.Repo
-  alias GQLardian.Posts.{Post, PostStatus}
+  alias GQLardian.Posts.Post
 
-  def create_post(attrs \\ %{}) do
+  def create_post(attrs) do
     %Post{}
     |> Post.create_changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert!()
+  end
+
+  def update_post(%Post{} = post, attrs \\ %{}) do
+    post
+    |> Post.update_changeset(attrs)
+    |> Repo.update()
   end
 
   def get_post(id) do
