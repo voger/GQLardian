@@ -5,7 +5,7 @@ defmodule GQLardianWeb.Resolvers.Posts do
   import Absinthe.Resolution.Helpers, only: [on_load: 2]
 
   def create_post(_, %{input: arguments}, _res) do
-    {:ok,Posts.create_post(arguments)}
+    {:ok, Posts.create_post(arguments)}
   end
 
   def get_post(_, %{id: id}, _res) do
@@ -13,7 +13,13 @@ defmodule GQLardianWeb.Resolvers.Posts do
   end
 
   def update_post(_, %{input: arguments}, _res) do
-    {:ok, Posts.update_post(arguments.id, arguments)}
+    with %Post{} = post <- Posts.get_post(arguments.id),
+         {_, result} <- Posts.update_post(post, arguments) do
+      {:ok, result}
+    else
+      nil ->
+        {:ok, %Kronky.ValidationMessage{field: :id, message: "not found", code: :not_found}}
+    end
   end
 
   def posts(_, _, _) do
