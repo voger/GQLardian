@@ -3,21 +3,51 @@ defmodule GQLardian.Posts.Post do
 
   import Ecto.Changeset
   alias GQLardian.Posts.{Post, PostStatus}
+  alias GQLardian.Repo
+
+  # FIXME: This should be taken from config or db or something else
+  @default_post_status "draft"
 
   schema "posts" do
     field :title, :string
     field :content, :string
 
-    belongs_to :status, PostStatus, references: :status, type: :string
-    belongs_to :author, GQLardian.Accounts.User
+    belongs_to(:status, PostStatus,
+               references: :status,
+               type: :string,
+               on_replace: :nilify)
+    belongs_to(:author, GQLardian.Accounts.User)
     timestamps()
   end
 
   @doc false
-  def create_changeset(%Post{} = post, attrs) do
+  def changeset(%Post{} = post, attrs) do
     # Temporary
     post
     |> cast(attrs, [:title, :content])
+  end
+
+  def create_changeset(%Post{} = post, attrs) do
+    post
+    |> changeset(attrs)
+    |> validate_required([:title, :content])
+    |> change_status(@default_post_status)
+    # FIXME: must put author alsewhere
     |> put_change(:author_id, 1)
+  end
+
+  def update_changeset(%Post{} = post,  attrs) do
+    post
+    |> changeset(attrs)
+    |> change_status(attrs)
+    |> assoc_constraint(:status)
+  end
+
+  defp change_status(changeset, %{status: status}) do
+    put_change(changeset, :status_id, to_string(status))
+  end
+
+  defp change_status(changeset, _attrs) do
+    changeset
   end
 end
