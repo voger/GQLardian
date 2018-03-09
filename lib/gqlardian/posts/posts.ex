@@ -12,15 +12,10 @@ defmodule GQLardian.Posts do
     |> Repo.insert!()
   end
 
-  def update_post(post_id, attrs \\ %{}) do
-    with post = %Post{} <- get_post(post_id) do
-      post
-      |> Post.update_changeset(attrs)
-      |> Repo.update!()
-    else
-      nil ->
-        %Kronky.ValidationMessage{field: :id, message: "not found", code: :not_found}
-    end
+  def update_post(%Post{} = post, attrs \\ %{}) do
+    post
+    |> Post.update_changeset(attrs)
+    |> Repo.update()
   end
 
   def get_post(id) do
