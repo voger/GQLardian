@@ -13,7 +13,8 @@ config :gqlardian,
 # Configures Guardian
 config :gqlardian, GQLardian.Auth.Guardian,
   issuer: "gqlardian",
-  secret_key: "sPqPMlQ7BDIKuj/RE8YWd6fPwlXz3oftdlpgS7aPQTNOp5Je7iq3e3L9U6Odec3k"
+  secret_key: "sPqPMlQ7BDIKuj/RE8YWd6fPwlXz3oftdlpgS7aPQTNOp5Je7iq3e3L9U6Odec3k",
+  ttl: {1, :week}
 
 # Configures the endpoint
 config :gqlardian, GQLardianWeb.Endpoint,
