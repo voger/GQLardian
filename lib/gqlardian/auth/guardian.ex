@@ -14,7 +14,7 @@ defmodule GQLardian.Auth.Guardian do
 
   def resource_from_claims(claims) do
     id = claims["sub"]
-    {:ok, resource} = Accounts.get_user(id)
+     resource = Accounts.get_user(id)
     {:ok, resource}
   end
 
