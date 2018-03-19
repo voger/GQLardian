@@ -5,20 +5,25 @@ defmodule GQLardianWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", GQLardianWeb do
-    pipe_through :api
+  pipeline :jwt_authenticated do
+    plug GQLardianWeb.Pipelines.AuthPipeline
   end
 
+  scope "/" do
+    pipe_through [:api, :jwt_authenticated]
+
+    
+    forward "/api", Absinthe.Plug, schema: GQLardianWeb.Schema
+  end
 
   scope "/" do
     pipe_through :api
 
-    forward "/api", Absinthe.Plug,
-      schema: GQLardianWeb.Schema
-
-    forward "/graphiql", Absinthe.Plug.GraphiQL,
+    forward(
+      "/graphiql",
+      Absinthe.Plug.GraphiQL,
       schema: GQLardianWeb.Schema,
-      # socket: GQLardianWeb.UserSocket
-      interface: :playground
+      socket: GQLardianWeb.UserSocket
+    )
   end
 end

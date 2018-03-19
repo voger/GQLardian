@@ -3,7 +3,10 @@ defmodule GQLardian.Auth.Guardian do
 
   alias GQLardian.{Accounts, Accounts.User}
 
+  require Cl
+
   def subject_for_token(%User{id: id}, _claims) do
+    Cl.inspect(id, label: "-b inside subject_for_token")
     sub = to_string(id)
     {:ok, sub}
   end
@@ -14,8 +17,10 @@ defmodule GQLardian.Auth.Guardian do
 
   def resource_from_claims(claims) do
     id = claims["sub"]
-     resource = Accounts.get_user(id)
-    {:ok, resource}
+
+    with %User{} = resource <- Accounts.get_user(id) do
+      {:ok, resource}
+    end
   end
 
   # def resource_from_claims(_) do
