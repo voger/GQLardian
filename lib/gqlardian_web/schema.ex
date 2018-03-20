@@ -3,6 +3,7 @@ defmodule GQLardianWeb.Schema do
 
   import_types __MODULE__.UserTypes
   import_types __MODULE__.PostTypes
+  import_types __MODULE__.AuthTypes
   import_types __MODULE__.ValidationMessageTypes
 
   import_types Absinthe.Type.Custom
@@ -15,6 +16,7 @@ defmodule GQLardianWeb.Schema do
   mutation do
     import_fields :user_mutations
     import_fields :post_mutations
+    import_fields :session_mutations
   end
 
   def dataloader() do
