@@ -1,4 +1,4 @@
-defmodule GQLardianWeb.Schema.Mutation.TokenTest do
+defmodule GQLardianWeb.Guardian.TokenTest do
   use GQLardianWeb.ConnCase, async: true
   alias GQLardian.Auth.Guardian
   require Cl
@@ -68,7 +68,7 @@ defmodule GQLardianWeb.Schema.Mutation.TokenTest do
       variables = %{"id" => user.id}
       conn = create_the_conn(token, @query, variables)
 
-      assert "{\"message\":\"invalid_token\"}" = response(conn, 401)
+      assert  %{"message" => "invalid_token"} = json_response(conn, 401)
     end
 
     test "unexistent sub returns error", %{user: user} do
@@ -78,7 +78,7 @@ defmodule GQLardianWeb.Schema.Mutation.TokenTest do
 
       conn = create_the_conn(token, @query, variables)
 
-      assert "{\"message\":\"no_resource_found\"}" = response(conn, 401)
+      assert %{"message" => "no_resource_found"} = json_response(conn, 401)
     end
   end
 
