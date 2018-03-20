@@ -3,7 +3,6 @@ defmodule GQLardian.Posts.Post do
 
   import Ecto.Changeset
   alias GQLardian.Posts.{Post, PostStatus}
-  alias GQLardian.Repo
 
   # FIXME: This should be taken from config or db or something else
   @default_post_status "draft"
