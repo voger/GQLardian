@@ -11,7 +11,7 @@ defmodule GQLardianWeb.Router do
   end
 
   scope "/" do
-    pipe_through([:api, :jwt_authenticated, GQLardianWeb.Plug.UserInContext])
+    pipe_through([:api, :jwt_authenticated])
 
     forward("/api", Absinthe.Plug, schema: GQLardianWeb.Schema)
   end
