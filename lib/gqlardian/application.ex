@@ -14,6 +14,7 @@ defmodule GQLardian.Application do
       supervisor(GQLardianWeb.Endpoint, []),
       # Start your own worker by calling: GQLardian.Worker.start_link(arg1, arg2, arg3)
       # worker(GQLardian.Worker, [arg1, arg2, arg3]),
+      worker(Guardian.DB.Token.SweeperServer, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
