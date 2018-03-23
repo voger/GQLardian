@@ -16,6 +16,11 @@ config :gqlardian, GQLardian.Auth.Guardian,
   secret_key: "sPqPMlQ7BDIKuj/RE8YWd6fPwlXz3oftdlpgS7aPQTNOp5Je7iq3e3L9U6Odec3k",
   ttl: {1, :week}
 
+# Configures GuardianDB
+config :guardian, Guardian.DB,
+  repo: GQLardian.Repo,
+  sweep_interval: 60
+
 # Configures the endpoint
 config :gqlardian, GQLardianWeb.Endpoint,
   url: [host: "localhost"],
