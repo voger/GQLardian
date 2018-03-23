@@ -6,5 +6,6 @@ defmodule GQLardianWeb.Pipelines.AuthPipeline do
 
 
   plug Guardian.Plug.VerifyHeader, realm: "Bearer"
-  plug Guardian.Plug.LoadResource, allow_blank: false
+  plug Guardian.Plug.LoadResource, allow_blank: true
 end
+
