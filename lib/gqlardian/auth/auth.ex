@@ -18,12 +18,6 @@ defmodule GQLardian.Auth do
   end
 
   def logout(token) do
-    case Guardian.revoke(token) do
-      {:ok, claims} ->
-        {:ok, claims}
-
-      {:error, reason} ->
-        {:error, reason}
-    end
+    Guardian.revoke(token)
   end
 end
