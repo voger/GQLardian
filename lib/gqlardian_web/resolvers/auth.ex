@@ -17,4 +17,21 @@ defmodule GQLardianWeb.Resolvers.Auth do
         {:error, "Ooops! Something went wrong"}
     end
   end
+
+  def logout(_, _, %{context: %{current_token: token}}) do
+    success =
+      case Auth.logout(token) do
+        {:ok, _} ->
+          true
+
+        {:error, reason} ->
+          false
+      end
+
+    {:ok, %{success: success}}
+  end
+
+  def logout(_, _, _) do
+    {:ok, %{success: true}}
+  end
 end

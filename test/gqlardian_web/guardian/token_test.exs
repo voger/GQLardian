@@ -71,15 +71,6 @@ defmodule GQLardianWeb.Guardian.TokenTest do
       assert  %{"message" => "invalid_token"} = json_response(conn, 401)
     end
 
-    test "unexistent sub returns error", %{user: user} do
-      user = %{user | id: user.id + 1}
-      {:ok, token, _claims} = Guardian.encode_and_sign(user)
-      variables = %{"id" => user.id}
-
-      conn = create_the_conn(token, @query, variables)
-
-      assert %{"message" => "no_resource_found"} = json_response(conn, 401)
-    end
   end
 
   defp create_the_conn(token, query, variables) do
