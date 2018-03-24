@@ -19,15 +19,7 @@ defmodule GQLardianWeb.Resolvers.Auth do
   end
 
   def logout(_, _, %{context: %{current_token: token}}) do
-    success =
-      case Auth.logout(token) do
-        {:ok, _} ->
-          true
-
-        {:error, reason} ->
-          false
-      end
-
+    success = match?({:ok, _}, Auth.logout(token))
     {:ok, %{success: success}}
   end
 

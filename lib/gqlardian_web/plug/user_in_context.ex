@@ -9,7 +9,6 @@ defmodule GQLardianWeb.Plug.UserInContext do
   @behaviour Plug
   import Guardian.Plug, only: [current_resource: 1, current_token: 1]
 
-  require Cl
   def init(opts), do: opts
 
   def call(conn, _) do
