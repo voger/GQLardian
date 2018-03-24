@@ -17,6 +17,7 @@ defmodule GQLardianWeb.Schema.Mutation.Auth do
     }
   }
   """
+  @tag :skip
   test "loging in with correct credentials yelds proper result", %{
     user: %{username: username, id: id} = user
   } do
@@ -40,6 +41,7 @@ defmodule GQLardianWeb.Schema.Mutation.Auth do
     assert {:ok, ^user, _} = GQLardian.Auth.Guardian.resource_from_token(token)
   end
 
+  @tag :skip
   test "loging in with incorrect credentials rises graphql error", %{user: %{username: username}} do
     variables = %{username: username, password: "This_is a random password."}
     result = post(build_conn(), "/api", query: @login_query, variables: variables)
