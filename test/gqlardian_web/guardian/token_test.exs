@@ -39,7 +39,7 @@ defmodule GQLardianWeb.Guardian.TokenTest do
     # @tag :skip
     test "without user returns nil", %{user: user, token: token} do
       # query for nonexisting user
-      variables = %{"id" => user.id + 1}
+      variables = %{"id" => increase_id(user.id)}
 
       conn = create_the_conn(token, @query, variables)
 
@@ -48,6 +48,17 @@ defmodule GQLardianWeb.Guardian.TokenTest do
                  "user" => nil
                }
              }
+    end
+
+    defp increase_id(hash, step \\ 1) when is_binary(hash) do
+      encoder =
+        Hashids.new(
+          salt: Application.get_env(:hashids, :salt),
+          min_len: Application.get_env(:hashids, :min_len)
+        )
+
+      id = encoder |> Hashids.decode!(hash) |> hd()
+      Hashids.encode(encoder, id + step)
     end
   end
 
@@ -68,9 +79,8 @@ defmodule GQLardianWeb.Guardian.TokenTest do
       variables = %{"id" => user.id}
       conn = create_the_conn(token, @query, variables)
 
-      assert  %{"message" => "invalid_token"} = json_response(conn, 401)
+      assert %{"message" => "invalid_token"} = json_response(conn, 401)
     end
-
   end
 
   defp create_the_conn(token, query, variables) do

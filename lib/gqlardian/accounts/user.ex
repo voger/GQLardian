@@ -3,9 +3,10 @@ defmodule GQLardian.Accounts.User do
   import Ecto.Changeset
   alias GQLardian.Accounts.User
 
+  @primary_key {:id, GQLardian.EctoTypes.Hashid,  read_after_writes: true}
   schema "users" do
-    field :password_hash, Comeonin.Ecto.Password
-    field :username, :string
+    field(:password_hash, Comeonin.Ecto.Password)
+    field(:username, :string)
 
     has_many(:posts, GQLardian.Posts.Post, foreign_key: :author_id)
 

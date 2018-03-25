@@ -21,6 +21,10 @@ config :guardian, Guardian.DB,
   repo: GQLardian.Repo,
   sweep_interval: 60
 
+  config :hashids, 
+  salt: "3bjSD71ruieVj7Rs+zfcXKvw+xmkqelH",
+  min_len: 5
+
 # Configures the endpoint
 config :gqlardian, GQLardianWeb.Endpoint,
   url: [host: "localhost"],

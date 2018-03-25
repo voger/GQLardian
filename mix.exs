@@ -47,6 +47,7 @@ defmodule GQLardian.Mixfile do
       {:comeonin_ecto_password, "~> 2.0.0"},
       {:dataloader, "~> 1.0.0"},
       {:kronky, "~> 0.5.0"},
+      {:hashids, "~> 2.0"},
       {:clouseau, "~>0.3.1"},
       {:credo, "~> 0.8"}
     ]
