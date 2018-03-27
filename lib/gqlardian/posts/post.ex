@@ -31,12 +31,10 @@ defmodule GQLardian.Posts.Post do
   end
 
   def create_changeset(%Post{} = post, attrs) do
-    # FIXME: must put author alsewhere
     post
     |> changeset(attrs)
     |> validate_required([:title, :content])
     |> change_status(@default_post_status)
-    |> put_change(:author_id, 1)
   end
 
   def update_changeset(%Post{} = post, attrs) do
