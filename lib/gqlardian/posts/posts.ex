@@ -6,8 +6,12 @@ defmodule GQLardian.Posts do
   alias GQLardian.Repo
   alias GQLardian.Posts.Post
 
-  def create_post(attrs) do
-    %Post{}
+  require Cl
+
+  def create_post(attrs, user) do
+    user
+    |> Ecto.build_assoc(:posts)
+    |> Cl.inspect(label: "-b post struct")
     |> Post.create_changeset(attrs)
     |> Repo.insert!()
   end

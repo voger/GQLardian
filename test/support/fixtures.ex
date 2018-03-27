@@ -15,8 +15,8 @@ defmodule Fixtures do
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sapien lectus, blandit ac tortor vel, pulvinar iaculis mi. Nunc ante massa, tincidunt a rutrum in, suscipit non justo. Maecenas ut enim nunc. Aliquam malesuada fermentum turpis. Mauris congue blandit pretium. Aliquam sit amet imperdiet lacus. Sed faucibus sed odio in ultricies. Nunc vel vulputate ex. Phasellus maximus luctus auctor. Vivamus neque metus, consequat at scelerisque sit amet, ullamcorper eu nisi."
   }
 
-  def create_post() do
-    post_params = GQLardian.Posts.create_post(@post_params)
+  def create_post(user) do
+    post_params = GQLardian.Posts.create_post(@post_params, user)
   end
 
   def post_params() do

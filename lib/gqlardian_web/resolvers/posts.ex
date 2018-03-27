@@ -4,8 +4,8 @@ defmodule GQLardianWeb.Resolvers.Posts do
 
   import Absinthe.Resolution.Helpers, only: [on_load: 2]
 
-  def create_post(_, %{input: arguments}, _res) do
-    {:ok, Posts.create_post(arguments)}
+  def create_post(_, %{input: arguments}, %{context: %{current_user: user}}) do
+    {:ok, Posts.create_post(arguments, user)}
   end
 
   def get_post(_, %{id: id}, _res) do
