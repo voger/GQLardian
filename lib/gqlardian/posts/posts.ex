@@ -6,8 +6,9 @@ defmodule GQLardian.Posts do
   alias GQLardian.Repo
   alias GQLardian.Posts.Post
 
-  def create_post(attrs) do
-    %Post{}
+  def create_post(attrs, user) do
+    user
+    |> Ecto.build_assoc(:posts)
     |> Post.create_changeset(attrs)
     |> Repo.insert!()
   end

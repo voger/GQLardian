@@ -8,13 +8,17 @@ defmodule GQLardian.Posts.Post do
   @default_post_status "draft"
 
   schema "posts" do
-    field :title, :string
-    field :content, :string
+    field(:title, :string)
+    field(:content, :string)
 
-    belongs_to(:status, PostStatus,
-               references: :status,
-               type: :string,
-               on_replace: :nilify)
+    belongs_to(
+      :status,
+      PostStatus,
+      references: :status,
+      type: :string,
+      on_replace: :nilify
+    )
+
     belongs_to(:author, GQLardian.Accounts.User)
     timestamps()
   end
@@ -27,15 +31,15 @@ defmodule GQLardian.Posts.Post do
   end
 
   def create_changeset(%Post{} = post, attrs) do
+    # FIXME: must put author alsewhere
     post
     |> changeset(attrs)
     |> validate_required([:title, :content])
     |> change_status(@default_post_status)
-    # FIXME: must put author alsewhere
     |> put_change(:author_id, 1)
   end
 
-  def update_changeset(%Post{} = post,  attrs) do
+  def update_changeset(%Post{} = post, attrs) do
     post
     |> changeset(attrs)
     |> change_status(attrs)
