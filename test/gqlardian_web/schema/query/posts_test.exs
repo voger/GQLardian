@@ -6,7 +6,8 @@ defmodule GQLardianWeb.Schema.Query.PostsTest do
   setup do
     1..3
     |> Stream.map(fn _ ->
-      Fixtures.create_post() |> GQLardian.Posts.create_post()
+      {:ok, user} = Fixtures.create_user()
+      Fixtures.create_post(user)
     end)
     |> Enum.to_list()
     |> Cl.inspect(label: "-b list of posts")
