@@ -10,14 +10,11 @@ defmodule GQLardian.EctoTypes.Hashid do
     :id
   end
 
-  require Cl
-
   def cast(id) when is_integer(id) do
     dump(id)
   end
 
   def cast(hash) when is_binary(hash) do
-    Cl.inspect(hash, label: "-b  Called cast on hash")
     dump(hash)
   end
 
@@ -28,7 +25,7 @@ defmodule GQLardian.EctoTypes.Hashid do
   def dump(hash) when is_binary(hash) do
     case Hashids.decode(@local_encoder, hash) do
       {:ok, id} ->
-        {:ok, hd(id)} |> Cl.inspect(label: "-b  Called dump on hash")
+        {:ok, hd(id)}
 
       _ ->
         :error
