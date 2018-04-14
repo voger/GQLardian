@@ -43,10 +43,8 @@ defmodule GQLardian.Posts.Post do
     |> change_status(attrs)
     |> assoc_constraint(:status)
   end
-  require Cl
 
   defp change_status(changeset, %{status: status}) do
-    Cl.inspect(status, label: "-b putting status")
     put_change(changeset, :status_id, to_string(status))
   end
 
