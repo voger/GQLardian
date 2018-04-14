@@ -14,6 +14,6 @@ defmodule GQLardianWeb.Schema.Query.PostsTest do
   end
 
   test "the truth" do
-    assert 1 + 1
+    assert true
   end
 end

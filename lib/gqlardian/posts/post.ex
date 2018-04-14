@@ -19,7 +19,7 @@ defmodule GQLardian.Posts.Post do
       on_replace: :nilify
     )
 
-    belongs_to(:author, GQLardian.Accounts.User)
+    belongs_to(:author, GQLardian.Accounts.User, type: GQLardian.EctoTypes.Hashid)
     timestamps()
   end
 
@@ -34,7 +34,7 @@ defmodule GQLardian.Posts.Post do
     post
     |> changeset(attrs)
     |> validate_required([:title, :content])
-    |> change_status(@default_post_status)
+    |> change_status(%{status: @default_post_status})
   end
 
   def update_changeset(%Post{} = post, attrs) do
@@ -43,8 +43,10 @@ defmodule GQLardian.Posts.Post do
     |> change_status(attrs)
     |> assoc_constraint(:status)
   end
+  require Cl
 
   defp change_status(changeset, %{status: status}) do
+    Cl.inspect(status, label: "-b putting status")
     put_change(changeset, :status_id, to_string(status))
   end
 

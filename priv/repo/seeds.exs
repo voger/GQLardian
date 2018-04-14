@@ -22,5 +22,4 @@ post_status_entries =
     "published"
   ]
   |> Enum.map(&[status: &1])
-
 Repo.insert_all("post_statuses", post_status_entries)
